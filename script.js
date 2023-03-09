@@ -237,6 +237,7 @@ function handleTouchMove(event) {
       setTwo();
     }
   }
+  document.getElementById("score").innerText = score;
 
   /* reset values */
   xDown = null;
