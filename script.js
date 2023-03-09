@@ -197,51 +197,48 @@ function slideDown() {
   }
 }
 
-// for mobile
+document.addEventListener("touchstart", handleTouchStart, false);
+document.addEventListener("touchmove", handleTouchMove, false);
+document.addEventListener("touchend", handleTouchEnd, false);
 
-// Initialize touch event variables
-let touchStartX, touchStartY, touchEndX, touchEndY;
+let xDown = null;
+let yDown = null;
 
-// Add touch event listeners to the game board element
-const gameBoard = document.querySelector("#board");
-gameBoard.addEventListener("touchstart", handleTouchStart, false);
-gameBoard.addEventListener("touchmove", handleTouchMove, false);
-gameBoard.addEventListener("touchend", handleTouchEnd, false);
-
-// Handle touch start event
 function handleTouchStart(event) {
-  touchStartX = event.touches[0].clientX;
-  touchStartY = event.touches[0].clientY;
+  xDown = event.touches[0].clientX;
+  yDown = event.touches[0].clientY;
 }
 
-// Handle touch move event
 function handleTouchMove(event) {
-  event.preventDefault();
-  touchEndX = event.touches[0].clientX;
-  touchEndY = event.touches[0].clientY;
-}
+  if (!xDown || !yDown) {
+    return;
+  }
 
-// Handle touch end event
-function handleTouchEnd() {
-  const swipeX = touchEndX - touchStartX;
-  const swipeY = touchEndY - touchStartY;
+  let xUp = event.touches[0].clientX;
+  let yUp = event.touches[0].clientY;
 
-  // Determine swipe direction and trigger game move
-  if (Math.abs(swipeX) > Math.abs(swipeY)) {
-    if (swipeX > 0) {
-      // Swipe right
-      slideRight();
-    } else {
-      // Swipe left
+  let xDiff = xDown - xUp;
+  let yDiff = yDown - yUp;
+
+  if (Math.abs(xDiff) > Math.abs(yDiff)) {
+    if (xDiff > 0) {
       slideLeft();
+    } else {
+      slideRight();
     }
   } else {
-    if (swipeY > 0) {
-      // Swipe down
-      slideDown();
-    } else {
-      // Swipe up
+    if (yDiff > 0) {
       slideUp();
+    } else {
+      slideDown();
     }
   }
+
+  /* reset values */
+  xDown = null;
+  yDown = null;
+}
+
+function handleTouchEnd() {
+  /* do nothing */
 }
