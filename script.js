@@ -99,7 +99,59 @@ document.addEventListener("keyup", (e) => {
   }
   document.getElementById("score").innerText = score;
 });
+//extra
+document.addEventListener("touchstart", handleTouchStart, false);
+document.addEventListener("touchmove", handleTouchMove, false);
+document.addEventListener("touchend", handleTouchEnd, false);
 
+let xDown = null;
+let yDown = null;
+
+function handleTouchStart(event) {
+  xDown = event.touches[0].clientX;
+  yDown = event.touches[0].clientY;
+}
+
+function handleTouchMove(event) {
+  if (!xDown || !yDown) {
+    return;
+  }
+
+  let xUp = event.touches[0].clientX;
+  let yUp = event.touches[0].clientY;
+
+  let xDiff = xDown - xUp;
+  let yDiff = yDown - yUp;
+
+  if (Math.abs(xDiff) > Math.abs(yDiff)) {
+    if (xDiff > 0) {
+      slideLeft();
+      setTwo();
+    } else {
+      slideRight();
+      setTwo();
+    }
+  } else {
+    if (yDiff > 0) {
+      slideUp();
+      setTwo();
+    } else {
+      slideDown();
+      setTwo();
+    }
+  }
+  document.getElementById("score").innerText = score;
+
+  /* reset values */
+  xDown = null;
+  yDown = null;
+}
+
+function handleTouchEnd() {
+  /* do nothing */
+}
+
+//extra
 function filterZero(row) {
   return row.filter((num) => num != 0); // create a new array without zeros
 }
@@ -195,55 +247,4 @@ function slideDown() {
       updateTile(tile, num);
     }
   }
-}
-
-document.addEventListener("touchstart", handleTouchStart, false);
-document.addEventListener("touchmove", handleTouchMove, false);
-document.addEventListener("touchend", handleTouchEnd, false);
-
-let xDown = null;
-let yDown = null;
-
-function handleTouchStart(event) {
-  xDown = event.touches[0].clientX;
-  yDown = event.touches[0].clientY;
-}
-
-function handleTouchMove(event) {
-  if (!xDown || !yDown) {
-    return;
-  }
-
-  let xUp = event.touches[0].clientX;
-  let yUp = event.touches[0].clientY;
-
-  let xDiff = xDown - xUp;
-  let yDiff = yDown - yUp;
-
-  if (Math.abs(xDiff) > Math.abs(yDiff)) {
-    if (xDiff > 0) {
-      slideLeft();
-      setTwo();
-    } else {
-      slideRight();
-      setTwo();
-    }
-  } else {
-    if (yDiff > 0) {
-      slideUp();
-      setTwo();
-    } else {
-      slideDown();
-      setTwo();
-    }
-  }
-  document.getElementById("score").innerText = score;
-
-  /* reset values */
-  xDown = null;
-  yDown = null;
-}
-
-function handleTouchEnd() {
-  /* do nothing */
 }
