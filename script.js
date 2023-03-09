@@ -223,14 +223,18 @@ function handleTouchMove(event) {
   if (Math.abs(xDiff) > Math.abs(yDiff)) {
     if (xDiff > 0) {
       slideLeft();
+      setTwo();
     } else {
       slideRight();
+      setTwo();
     }
   } else {
     if (yDiff > 0) {
       slideUp();
+      setTwo();
     } else {
       slideDown();
+      setTwo();
     }
   }
 
