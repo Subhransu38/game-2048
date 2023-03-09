@@ -196,3 +196,52 @@ function slideDown() {
     }
   }
 }
+
+// for mobile
+
+// Initialize touch event variables
+let touchStartX, touchStartY, touchEndX, touchEndY;
+
+// Add touch event listeners to the game board element
+const gameBoard = document.querySelector("#board");
+gameBoard.addEventListener("touchstart", handleTouchStart, false);
+gameBoard.addEventListener("touchmove", handleTouchMove, false);
+gameBoard.addEventListener("touchend", handleTouchEnd, false);
+
+// Handle touch start event
+function handleTouchStart(event) {
+  touchStartX = event.touches[0].clientX;
+  touchStartY = event.touches[0].clientY;
+}
+
+// Handle touch move event
+function handleTouchMove(event) {
+  event.preventDefault();
+  touchEndX = event.touches[0].clientX;
+  touchEndY = event.touches[0].clientY;
+}
+
+// Handle touch end event
+function handleTouchEnd() {
+  const swipeX = touchEndX - touchStartX;
+  const swipeY = touchEndY - touchStartY;
+
+  // Determine swipe direction and trigger game move
+  if (Math.abs(swipeX) > Math.abs(swipeY)) {
+    if (swipeX > 0) {
+      // Swipe right
+      slideRight();
+    } else {
+      // Swipe left
+      slideLeft();
+    }
+  } else {
+    if (swipeY > 0) {
+      // Swipe down
+      slideDown();
+    } else {
+      // Swipe up
+      slideUp();
+    }
+  }
+}
